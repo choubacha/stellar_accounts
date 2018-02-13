@@ -80,10 +80,8 @@ fn main() {
                 let asset_code = "MOBI";
                 let asset_issuer = "GBNMSB7UXFOGWC3E6BQRKYOKJCAYUL6WBZMCINHKGWAD3PTRXNWUQ2BB";
                 let mut response = client
-                    .get(&format!(
-                        "{}/assets?asset_code={}&asset_issuer={}",
-                        url, asset_code, asset_issuer
-                    ))
+                    .get(&format!("{}/assets", url))
+                    .query(&[("asset_code", asset_code), ("asset_issuer", asset_issuer)])
                     .send()
                     .unwrap();
                 let json_str = response.text().expect("there was no body");
