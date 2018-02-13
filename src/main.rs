@@ -21,9 +21,11 @@ fn main() {
     let mut response = client.get(&format!("{}/accounts/{}", url, account_id))
         .send()
         .unwrap();
+
     let json_str = response.text().expect("there was no body");
     let account: Account = serde_json::from_str::<Account>(&json_str)
         .expect("invalid json");
+
     println!("id:          {}", account.id);
     println!("account id:  {}", account.account_id);
     println!("sequence:    {}", account.sequence);
