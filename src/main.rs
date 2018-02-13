@@ -34,7 +34,6 @@ struct Records<T> {
 
 fn main() {
     let client = reqwest::Client::new();
-
     println!("Type 1 to get scotts testnet balance, Type 2 to get some MOBI info");
     let mut command = String::new();
     io::stdin().read_line(&mut command)
@@ -49,7 +48,9 @@ fn main() {
         let json_str = response.text().expect("there was no body");
         let account: Account = serde_json::from_str::<Account>(&json_str)
             .expect("invalid json");
-        println!("The id is: {}", account.id);
+        println!("id:          {}", account.id);
+        println!("account id:  {}", account.account_id);
+        println!("sequence:    {}", account.sequence);
     } else if command == "2" {
         let url = "https://horizon.stellar.org";
         let asset_code = "MOBI";
