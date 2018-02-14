@@ -6,12 +6,25 @@ extern crate serde;
 extern crate serde_json;
 
 use std::io;
+use std::str::FromStr;
+use serde::{Deserialize, Deserializer};
+use serde::de;
+
+fn deserialize_from_str<'de, D, T>(d: D) -> Result<T, D::Error>
+    where D: Deserializer<'de>, T: FromStr
+{
+
+    let s = String::deserialize(d)?;
+    T::from_str(&s).map_err(|_| de::Error::custom("failed to parse string field"))
+}
+
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Account {
     id: String,
     account_id: String,
-    sequence: String,
+    #[serde(deserialize_with = "deserialize_from_str")]
+    sequence: u64,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
