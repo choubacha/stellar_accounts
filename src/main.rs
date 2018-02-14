@@ -11,13 +11,15 @@ use serde::{Deserialize, Deserializer};
 use serde::de;
 
 fn deserialize_from_str<'de, D, T>(d: D) -> Result<T, D::Error>
-    where D: Deserializer<'de>, T: FromStr
+where
+    D: Deserializer<'de>,
+    T: FromStr,
 {
-
+    // Call string deserialize on the "deserializer".
     let s = String::deserialize(d)?;
+    // Now that we have a string, we can call FromStr
     T::from_str(&s).map_err(|_| de::Error::custom("failed to parse string field"))
 }
-
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Account {
