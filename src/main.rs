@@ -27,6 +27,7 @@ struct Account {
     account_id: String,
     #[serde(deserialize_with = "deserialize_from_str")]
     sequence: u64,
+    subentry_count: u64,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -51,6 +52,23 @@ enum Command {
     MobiInfo,
     TryAgain,
     Quit,
+}
+
+#[cfg(test)]
+mod resource_tests {
+    use super::*;
+
+    fn account_json() -> &'static str {
+        include_str!("example_account.json")
+    }
+
+    #[test]
+    fn it_can_serialize_an_account() {
+        let account: Account = serde_json::from_str(&account_json()).unwrap();
+        assert_eq!(account.sequence, 31429458275598336);
+        assert_eq!(account.id, "GATUX2IIOOPQ5CWW3SFVOFUKBBSJ72GIGROR3U4PAA7VUYZT5AYD3HL4");
+        assert_eq!(account.subentry_count, 0);
+    }
 }
 
 fn get_command() -> Command {
