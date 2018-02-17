@@ -72,13 +72,13 @@ mod resource_tests {
 }
 
 fn get_command() -> Command {
-    println!("Type 1 to get scotts testnet balance, Type 2 to get some MOBI info\n");
+    println!("Type \"b\" to get Scott's testnet balance, Type \"m\" to get some MOBI info\n");
 
     let mut command = String::new();
     match io::stdin().read_line(&mut command) {
         Ok(n) if n > 1 => match command.trim() {
-            "1" => Command::ScottsBalance,
-            "2" => Command::MobiInfo,
+            "b" => Command::ScottsBalance,
+            "m" => Command::MobiInfo,
             "q" => Command::Quit,
             _ => Command::TryAgain,
         },
